@@ -1,0 +1,14 @@
+local g = Instance.new("ScreenGui")
+g.Name = "IloveGray" --Uselesss asf
+g.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")local label = Instance.new("TextLabel", g)
+label.Text = "justAscript" -- Change Name
+label.Size = UDim2.new(0, 200, 0, 50)
+label.Position = UDim2.new(0.5, -100, 1, -50)
+label.BackgroundColor3 = Color3.new(0, 0, 0)
+label.TextColor3 = Color3.new(1, 1, 1)
+label.BackgroundTransparency = 0.5
+local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+local tween = game:GetService("TweenService"):Create(label, tweenInfo, {Position = UDim2.new(0.5, -100, 0.9, -25)})
+tween:Play()
+wait(20) -- adust the time or lower this timer does it wait 20 second then gui destroy 
+label:Destroy()
