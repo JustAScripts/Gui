@@ -1,0 +1,95 @@
+local player = game.Players.LocalPlayer
+local JrM = Instance.new("ScreenGui")
+JrM.Name = "JustAScript"
+JrM.Parent = player.PlayerGui
+local t=Instance.new("ScreenGui")
+t.Name="ToggleGui"
+t.Parent=game.Players.LocalPlayer.PlayerGui
+local b=Instance.new("TextButton")
+b.Text="Toggle"
+b.Size=UDim2.new(0,50,0,50)
+b.Position=UDim2.new(0,15,0,18)
+b.BackgroundColor3=Color3.new(0,0,0)
+b.BackgroundTransparency=0.5
+b.TextColor3=Color3.new(1,1,1)
+b.BorderColor3=Color3.new(1,1,1)
+b.Parent=t
+local function c()
+local g={"JustAScript"} 
+for _,n in ipairs(g) do
+local r=game.Players.LocalPlayer.PlayerGui:GetDescendants()
+ for _,i in ipairs(r) do
+ if i.Name==n then
+i.Enabled=not i.Enabled
+end
+end
+end
+end
+
+b.MouseButton1Click:Connect(c)
+
+local JrMFrame = Instance.new("Frame")
+JrMFrame.Size = UDim2.new(0, 170, 0, 250)
+JrMFrame.Position = UDim2.new(0, 64, 0, -6)
+JrMFrame.BackgroundTransparency = 0.5
+JrMFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+JrMFrame.BorderSizePixel = 2
+JrMFrame.BorderColor3 = Color3.new(1, 1, 1)
+JrMFrame.Parent = JrM
+local draggingEnabled = false
+local dragInput, dragStart, startPos
+
+JrMFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        draggingEnabled = true
+        dragStart = input.Position
+        startPos = JrMFrame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                draggingEnabled = false
+            end
+        end)
+    end
+end)
+
+JrMFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch and draggingEnabled then
+        local delta = input.Position - dragStart
+        JrMFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+local munFrame = Instance.new("Frame")
+munFrame.Size = UDim2.new(0, 170, 0, 23)
+munFrame.Position = UDim2.new(0, 1, 0, -4)
+munFrame.BackgroundTransparency = 0.1
+munFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+munFrame.BorderColor3 = Color3.new(1, 1, 1)
+munFrame.Parent = JrMFrame
+
+local munLabel = Instance.new("TextLabel")
+munLabel.Text = "Just A Script"
+munLabel.Size = UDim2.new(1, 0, 1, 0)
+munLabel.Position = UDim2.new(0, 0, 0, 0)
+munLabel.TextColor3 = Color3.new(1, 1, 1)
+munLabel.BackgroundTransparency = 3
+munLabel.Parent = munFrame
+
+local yOffset = 28
+
+local function createButton(name, onClick)
+    local button = Instance.new("TextButton")
+    button.Text = name
+    button.Size = UDim2.new(0, 150, 0, 30)
+    button.Position = UDim2.new(0, 12, 0, yOffset)
+    button.BackgroundColor3 = Color3.new(0.8, 0.8, 0.8)
+    button.TextColor3 = Color3.new(1, 1, 1) 
+    button.Parent = JrMFrame
+    yOffset = yOffset + 40
+    
+    button.MouseButton1Click:Connect(function()
+        onClick(button)
+    end)
+    
+    return button
+end
